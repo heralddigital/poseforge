@@ -4,6 +4,7 @@ import { fnv1a, mixSeed, mulberry32 } from './prng';
 import { resolvePronouns } from './pronouns';
 import type { Filters, Option, PickConfig, Pool } from './types';
 
+import { styleMultiplier, type StyleId } from './style';
 export const SEP = ' || ';
 
 export const SETTING_VALUES = ['indoor', 'outdoor', 'urban', 'nature', 'travel', 'home', 'gym', 'cafe', 'beach', 'car', 'nightlife'];
@@ -138,8 +139,8 @@ function eligible(option: Option, category: string, ctx: Set<string>, env: Env, 
   return true;
 }
 
-function effectiveWeight(option: Option, category: string, realism: number): number {
-  let w = Math.max(0, option.weight);
+function effectiveWeight(option: Option, category: string, realism: number, style?: StyleId): number {
+  let w = Math.max(0, option.weight) * styleMultiplier(style, category, option);
   if (category === 'imperfection' || category === 'tech') {
     const delta = realism - 3;
     if (option.tags.includes('real')) w *= Math.max(0.2, 1 + delta * 0.35);
@@ -148,9 +149,9 @@ function effectiveWeight(option: Option, category: string, realism: number): num
   return w;
 }
 
-function weightedPick(candidates: Option[], category: string, realism: number, rng: () => number): Option | undefined {
+function weightedPick(candidates: Option[], category: string, realism: number, rng: () => number, style?: StyleId): Option | undefined {
   if (candidates.length === 0) return undefined;
-  const weights = candidates.map((c) => effectiveWeight(c, category, realism));
+  const weights = candidates.map((c) => effectiveWeight(c, category, realism, style));
   const total = weights.reduce((a, b) => a + b, 0);
   if (total <= 0) return candidates[Math.floor(rng() * candidates.length)];
   let r = rng() * total;
@@ -226,7 +227,7 @@ function pickCategory(
     }
     if (candidates.length === 0) break;
     if (level > 0 && n === 0) relaxedFlag = true;
-    const pick = weightedPick(candidates, category, env.config.realism, rng);
+    const pick = weightedPick(candidates, category, env.config.realism, rng, env.config.style);
     if (!pick) break;
     chosen.push(pick);
     pick.tags.forEach((t) => localCtx.add(t));

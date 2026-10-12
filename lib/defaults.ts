@@ -6,6 +6,7 @@ export const emptyFilters = (): Filters => ({ setting: [], time: [], season: [],
 
 export function defaultSettings(): Settings {
   return {
+    style: 'girlnextdoor',
     characterLock: '',
     characterLockEnabled: false,
     alwaysAppend: '',

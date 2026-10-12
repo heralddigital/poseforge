@@ -123,3 +123,29 @@ describe('re-roll', () => {
     for (const k of Object.keys(p.optionIds)) if (k !== 'grade') expect(next!.optionIds[k]).toEqual(p.optionIds[k]);
   });
 });
+
+describe('style bias', () => {
+  const share = (style: 'standard' | 'girlnextdoor', cat: string, tag: string) => {
+    const settings = defaultSettings();
+    settings.style = style;
+    const pools = defaultPools();
+    let hit = 0;
+    const n = 300;
+    for (let i = 0; i < n; i++) {
+      const p = generatePrompt(i + 1, ctx({ pools, settings })).prompt;
+      const opt = pools.find((x) => x.category === cat)!.options.find((o) => o.id === p.optionIds[cat][0])!;
+      if (opt.tags.includes(tag)) hit++;
+    }
+    return hit / n;
+  };
+  it('girl-next-door favours phone cameras and natural makeup', () => {
+    expect(share('girlnextdoor', 'camera', 'body-phone')).toBeGreaterThan(share('standard', 'camera', 'body-phone') * 1.5);
+    expect(share('girlnextdoor', 'makeup', 'natural')).toBeGreaterThan(share('standard', 'makeup', 'natural'));
+  });
+  it('adds the style anchor line and stays within the word budget', () => {
+    const settings = defaultSettings();
+    const text = generatePrompt(5, ctx({ settings })).prompt.promptText;
+    expect(text).toContain('feel');
+    expect(wordCount(text)).toBeLessThanOrEqual(WORD_BUDGET.full[1] * 1.1);
+  });
+});

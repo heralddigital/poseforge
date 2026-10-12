@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { CATEGORIES, categoryLabel } from '@/data/pools';
 import { CAMERA_LOOK_VALUES, SEASON_VALUES, SETTING_VALUES, SHOT_VALUES, TIME_VALUES, VIBE_VALUES } from '@/lib/engine';
+import { STYLE_LABELS } from '@/lib/style';
 import { useStore } from '@/lib/store';
 import type { Filters, PromptFormat, PromptMode } from '@/lib/types';
 import { PromptCard } from './PromptCard';
@@ -42,6 +43,9 @@ export function GenerateView() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 text-sm">
+          <select className="btn" value={settings.style} onChange={(e) => st.updateSettings({ style: e.target.value as typeof settings.style })} aria-label="Style">
+            {(Object.keys(STYLE_LABELS) as (keyof typeof STYLE_LABELS)[]).map((k) => <option key={k} value={k}>{STYLE_LABELS[k]}</option>)}
+          </select>
           <select className="btn" value={settings.mode} onChange={(e) => st.updateSettings({ mode: e.target.value as PromptMode })} aria-label="Length">
             <option value="full">Full (250–400 words)</option>
             <option value="condensed">Condensed (150–220)</option>

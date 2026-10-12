@@ -1,5 +1,6 @@
 import { SEP, pickAll, rerollCategory, resolveSelections, selectionHash } from './engine';
 import { assemble, makeTitle } from './assemble';
+import { styleAnchor } from './style';
 import { mixSeed, newSeed, uid } from './prng';
 import type { GeneratedPrompt, Option, PickConfig, Pool, PromptFormat, PromptMode, Settings } from './types';
 
@@ -25,6 +26,7 @@ export interface GenOutcome {
 
 export function pickConfigFrom(settings: Settings, pinned: Record<string, string[]>): PickConfig {
   return {
+    style: settings.style,
     filters: settings.filters,
     enabledCategories: settings.enabledCategories,
     neverInclude: settings.neverInclude,
@@ -69,7 +71,7 @@ function compose(
     seed,
     templates: settings.templates,
     characterLock: settings.characterLockEnabled ? settings.characterLock : '',
-    alwaysAppend: settings.alwaysAppend
+    alwaysAppend: [settings.alwaysAppend, styleAnchor(settings.style, mode)].filter(Boolean).join(' ')
   });
   return {
     id: base.id ?? uid(),
@@ -149,7 +151,7 @@ export function reassemble(prompt: GeneratedPrompt, settings: Settings, over: { 
     seed: prompt.seed,
     templates: settings.templates,
     characterLock: settings.characterLockEnabled ? settings.characterLock : '',
-    alwaysAppend: settings.alwaysAppend
+    alwaysAppend: [settings.alwaysAppend, styleAnchor(settings.style, mode)].filter(Boolean).join(' ')
   });
   return { ...prompt, mode, format, promptText: text };
 }

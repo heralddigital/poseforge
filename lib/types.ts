@@ -50,6 +50,7 @@ export interface Templates {
 }
 
 export interface Settings {
+  style: 'standard' | 'girlnextdoor';
   characterLock: string;
   characterLockEnabled: boolean;
   alwaysAppend: string;
@@ -70,6 +71,7 @@ export interface Settings {
 
 /** The subset of Settings that influences which options get picked. */
 export interface PickConfig {
+  style?: 'standard' | 'girlnextdoor';
   filters: Filters;
   enabledCategories: Record<string, boolean>;
   neverInclude: string;
