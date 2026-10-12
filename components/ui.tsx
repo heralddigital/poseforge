@@ -37,10 +37,10 @@ export function Toasts() {
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex flex-col items-center gap-2 px-4" aria-live="polite">
       {toasts.map((t) => (
-        <div key={t.id} className="pointer-events-auto flex items-center gap-3 rounded-lg border border-line bg-panel2 px-4 py-2 text-sm shadow-xl">
+        <div key={t.id} className="pointer-events-auto flex items-center gap-3 border border-line bg-raised px-4 py-2 text-sm">
           <span>{t.message}</span>
           {t.undo && (
-            <button className="font-semibold text-accent" onClick={() => { t.undo?.(); dismiss(t.id); }}>
+            <button className="mono text-[11px] underline" onClick={() => { t.undo?.(); dismiss(t.id); }}>
               Undo
             </button>
           )}
@@ -60,7 +60,7 @@ export function Chip({ on, children, onClick, title }: { on?: boolean; children:
 
 export const STATUS_STYLE: Record<string, string> = {
   unused: 'text-mute border-line',
-  generated: 'text-ok border-ok/50 bg-ok/10',
-  posted: 'text-accent border-accent/60 bg-accent/10',
-  rejected: 'text-bad border-bad/50 bg-bad/10'
+  generated: 'text-ink border-ink',
+  posted: 'bg-signal text-on-signal border-signal',
+  rejected: 'text-mute border-line line-through'
 };

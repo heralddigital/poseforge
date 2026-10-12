@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useStore, type Tab } from '@/lib/store';
 import { GenerateView } from './GenerateView';
 import { HistoryView } from './HistoryView';
@@ -21,7 +21,15 @@ export function App() {
   const error = useStore((s) => s.error);
   const unused = useStore((s) => s.prompts.filter((p) => p.status === 'unused').length);
 
+  const [light, setLight] = useState(false);
   useEffect(() => { void useStore.getState().init(); }, []);
+  useEffect(() => { setLight(document.documentElement.dataset.theme === 'light'); }, []);
+  const toggleTheme = () => {
+    const next = !light;
+    setLight(next);
+    if (next) document.documentElement.dataset.theme = 'light'; else delete document.documentElement.dataset.theme;
+    try { localStorage.setItem('poseforge:theme', next ? 'light' : 'dark'); } catch { /* ignore */ }
+  };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -44,21 +52,33 @@ export function App() {
   }, []);
 
   return (
-    <div className="mx-auto min-h-screen max-w-4xl px-4 pb-24">
-      <header className="sticky top-0 z-20 -mx-4 mb-4 border-b border-line bg-bg/90 px-4 py-3 backdrop-blur">
-        <div className="flex items-center gap-3">
-          <h1 className="text-lg font-bold tracking-tight"><span className="text-accent">Pose</span>Forge</h1>
-          <nav className="ml-auto flex gap-1" aria-label="Sections">
-            {TABS.map((t) => (
-              <button key={t.key} onClick={() => setTab(t.key)} className={`btn px-3 py-1.5 ${tab === t.key ? 'btn-primary' : 'btn-ghost'}`} aria-current={tab === t.key}>
-                {t.label}{t.key === 'history' && unused > 0 ? <span className="ml-1 text-xs opacity-70">{unused}</span> : null}
+    <div className="shell">
+      <div className="panel pt-10 sm:pt-12">
+        <div className="eyebrow">
+          <span>PoseForge - prompt studio</span>
+          <button className="mono ml-auto text-[10px] hover:underline" onClick={toggleTheme} aria-label="Toggle light or dark theme">{light ? 'Night' : 'Cream'} theme</button>
+        </div>
+        <header className="mb-6 mt-10 flex flex-wrap items-end justify-between gap-x-8 gap-y-4 sm:mt-12">
+          <h1 className="max-w-[14em] text-[40px] leading-[1.08] tracking-[-0.02em] sm:text-[56px] sm:leading-[61px]">
+            Prompts that read like photographs.
+          </h1>
+          <nav className="flex w-full flex-wrap gap-x-6 gap-y-1 sm:w-auto" aria-label="Sections">
+            {TABS.map((t, i) => (
+              <button
+                key={t.key}
+                onClick={() => setTab(t.key)}
+                aria-current={tab === t.key ? 'page' : undefined}
+                className={`mono border-b py-2 text-[11px] ${tab === t.key ? 'border-ink text-ink' : 'border-line text-mute hover:text-ink'}`}
+              >
+                {String(i + 1).padStart(2, '0')}&nbsp;&nbsp;{t.label}
+                {t.key === 'history' && unused > 0 ? <span className="ml-1.5 bg-signal px-1 text-on-signal">{unused}</span> : null}
               </button>
             ))}
           </nav>
-        </div>
-      </header>
-      {error && <p className="mb-4 rounded-lg border border-bad/50 bg-bad/10 p-3 text-sm text-bad">{error}</p>}
-      {!ready ? <p className="text-mute">Loading…</p> : tab === 'generate' ? <GenerateView /> : tab === 'history' ? <HistoryView /> : tab === 'library' ? <LibraryView /> : <SettingsView />}
+        </header>
+        {error && <p className="mb-4 border border-line bg-panel2 p-3 text-sm">{error}</p>}
+        {!ready ? <p className="mono text-[11px] text-mute">Loading…</p> : tab === 'generate' ? <GenerateView /> : tab === 'history' ? <HistoryView /> : tab === 'library' ? <LibraryView /> : <SettingsView />}
+      </div>
       <Toasts />
     </div>
   );

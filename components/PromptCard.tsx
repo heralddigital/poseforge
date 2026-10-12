@@ -36,24 +36,24 @@ export function PromptCard({
   };
 
   return (
-    <article className={`card space-y-3 ${selected ? 'border-accent' : ''}`}>
+    <article className={`fig-card space-y-3 ${selected ? 'border-ink outline outline-1 outline-ink' : ''}`}>
       <header className="flex items-start gap-2">
         {selectable && (
-          <input type="checkbox" className="mt-1 h-4 w-4 accent-[#c4a7ff]" checked={!!selected} onChange={onSelect} aria-label="Select prompt" />
+          <input type="checkbox" className="mt-1 h-4 w-4 " checked={!!selected} onChange={onSelect} aria-label="Select prompt" />
         )}
         <div className="min-w-0 flex-1">
-          <h3 className="truncate text-sm font-semibold">{p.title}</h3>
-          <p className="text-xs text-mute">
-            {new Date(p.createdAt).toLocaleString()} · {wordCount(p.promptText)} words · seed {p.seed}
+          <h3 className="text-xl leading-6 tracking-[-0.01em]">{p.title}</h3>
+          <p className="mono mt-1 text-[10px] text-mute">
+            {new Date(p.createdAt).toLocaleString()} - {wordCount(p.promptText)} words - seed {p.seed}
           </p>
         </div>
-        <span className={`chip ${STATUS_STYLE[p.status]}`}>{p.status}</span>
+        <span className={`chip ${STATUS_STYLE[p.status]}`}>{p.status === 'unused' ? '• unused' : p.status}</span>
         <button className="btn-ghost btn px-2" onClick={() => st.toggleStar(p.id)} aria-label="Star" title="Star">
           {p.starred ? '★' : '☆'}
         </button>
       </header>
 
-      <p className="whitespace-pre-wrap rounded-lg bg-bg/60 p-3 text-sm leading-relaxed text-ink/90">{p.promptText}</p>
+      <p className="whitespace-pre-wrap bg-panel2 p-3 text-sm leading-relaxed">{p.promptText}</p>
 
       <div className="flex flex-wrap gap-2">
         <button className="btn btn-primary" onClick={copy}>Copy</button>
@@ -77,7 +77,7 @@ export function PromptCard({
             {CATEGORIES.filter((c) => p.selections[c.key]).map((c) => {
               const isPinned = (pinned[c.key] ?? []).length > 0;
               return (
-                <div key={c.key} className="rounded-lg border border-line p-2 text-xs">
+                <div key={c.key} className="border border-line p-2 text-xs">
                   <div className="mb-1 flex items-center justify-between">
                     <span className="font-medium text-mute">{c.label}</span>
                     <span className="flex gap-1">

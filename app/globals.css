@@ -2,13 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: dark; }
-body { @apply bg-bg text-ink font-sans antialiased; }
-.btn { @apply inline-flex items-center justify-center gap-1.5 rounded-lg border border-line bg-panel2 px-3 py-2 text-sm text-ink transition hover:border-accent/60 active:scale-[.98] disabled:opacity-40; }
-.btn-primary { @apply border-transparent bg-accent text-bg font-semibold hover:bg-accent/90; }
-.btn-ghost { @apply border-transparent bg-transparent hover:bg-panel2; }
-.chip { @apply inline-flex items-center gap-1 rounded-full border border-line bg-panel2 px-2.5 py-1 text-xs text-mute; }
-.chip-on { @apply border-accent/70 bg-accent/15 text-accent; }
-.input { @apply w-full rounded-lg border border-line bg-panel px-3 py-2 text-sm text-ink placeholder:text-mute focus:border-accent focus:outline-none; }
-.card { @apply rounded-xl border border-line bg-panel p-4; }
-.label { @apply mb-1 block text-xs font-medium uppercase tracking-wide text-mute; }
+/* Signal Editorial tokens. Values are "R G B" channels. */
+:root {
+  /* Signal Editorial - Night (default) */
+  --surface-100: 10 18 32;
+  --surface-200: 19 29 47;
+  --surface-raised: 24 34 54;
+  --ink: 243 243 233;
+  --ink-muted: 163 168 182;
+  --ink-label: 217 219 227;
+  --hairline: 42 52 71;
+  --hairline-soft: 27 37 53;
+  --signal: 249 88 7;
+  --on-signal: 1 9 22;
+  --chrome: 1 9 22;
+  --chrome-ink: 198 202 214;
+  --chrome-ink-muted: 139 147 165;
+  --chrome-rule: 73 79 93;
+  color-scheme: dark;
+}
+/* Signal Editorial - Cream (optional, toggled from the header) */
+:root[data-theme='light'] {
+  --surface-100: 243 243 233;
+  --surface-200: 231 230 225;
+  --surface-raised: 255 254 250;
+  --ink: 1 9 22;
+  --ink-muted: 101 100 95;
+  --ink-label: 35 34 29;
+  --hairline: 208 208 198;
+  --hairline-soft: 225 224 219;
+  --chrome-ink-muted: 106 109 122;
+  color-scheme: light;
+}
+
+html { background: rgb(var(--chrome)); }
+body { @apply bg-chrome font-sans text-ink antialiased; font-size: 15px; line-height: 1.5; }
+h1, h2, h3 { @apply font-serif font-normal; }
+input, select, textarea { accent-color: rgb(var(--ink)); }
+:focus-visible { outline: 2px solid rgb(var(--ink)); outline-offset: 2px; }
+::selection { background: rgb(var(--signal)); color: rgb(var(--on-signal)); }
+
+/* Shell: dark chrome, one cream panel inset 20px (8px on phones). */
+.shell { @apply mx-auto max-w-5xl p-2 sm:p-5; }
+.panel { @apply min-h-[calc(100vh-1rem)] bg-panel px-4 pb-24 sm:px-10; color: rgb(var(--ink)); }
+
+/* Mono labels, eyebrow, figure frame */
+.mono { @apply font-mono uppercase; letter-spacing: 0.04em; }
+.eyebrow { @apply mono flex items-center gap-2 border-b border-line pb-3 text-[10px] text-label; }
+.eyebrow::before { content: ''; width: 5px; height: 5px; background: rgb(var(--signal)); flex: none; }
+.fig { border-left: 1px dotted rgb(var(--hairline-soft)); border-right: 1px dotted rgb(var(--hairline-soft)); @apply px-2 pb-4; }
+.fig-label { @apply mono px-2 pb-2 pt-3 text-[10px] text-label; }
+.fig-card { @apply border border-line bg-panel p-4; }
+mark, .mark { background: rgb(var(--signal)); color: rgb(var(--on-signal)); padding: 0 1px; }
+
+.btn { @apply mono inline-flex items-center justify-center gap-1.5 border border-line bg-panel px-3 py-2 text-[11px] text-ink transition-colors hover:border-ink disabled:opacity-40; }
+select.btn { @apply normal-case; letter-spacing: 0; font-family: theme('fontFamily.sans'); font-size: 13px; }
+.btn-primary { @apply border-ink bg-ink text-bg hover:bg-ink/85; }
+.btn-signal { @apply mono border-signal bg-signal px-6 py-3 text-xs font-medium text-on-signal hover:brightness-95; }
+.btn-ghost { @apply border-transparent bg-transparent hover:border-line; }
+.chip { @apply mono inline-flex items-center gap-1 border border-line bg-panel px-2 py-1 text-[10px] text-mute; }
+.chip-on { @apply border-ink bg-ink text-bg; }
+.input { @apply w-full border border-line bg-panel px-3 py-2 text-sm text-ink placeholder:text-mute focus:border-ink focus:outline-none; }
+.card { @apply border border-line bg-panel p-4; }
+.label { @apply mono mb-1 block text-[10px] text-label; }
+kbd { @apply mono border border-line px-1 text-[10px]; }

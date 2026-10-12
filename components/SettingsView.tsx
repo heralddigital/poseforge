@@ -25,8 +25,8 @@ export function SettingsView() {
 
   return (
     <div className="space-y-4">
-      <section className="card space-y-3">
-        <h2 className="font-semibold">Character</h2>
+      <section className="fig-card space-y-3">
+        <h2 className="mb-1 text-2xl tracking-[-0.01em]">Character</h2>
         <label className="label" htmlFor="cl">Character lock (prepended to every prompt when enabled)</label>
         <textarea id="cl" className="input min-h-24" value={settings.characterLock} placeholder="e.g. 25-year-old woman with shoulder-length chestnut hair, hazel eyes, light freckles… (keep this identical across prompts)" onChange={(e) => st.updateSettings({ characterLock: e.target.value })} />
         <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={settings.characterLockEnabled} onChange={(e) => st.updateSettings({ characterLockEnabled: e.target.checked })} /> Enable character lock</label>
@@ -36,8 +36,8 @@ export function SettingsView() {
         <input id="ni" className="input" value={settings.neverInclude} placeholder="e.g. sunglasses, hat, cigarette" onChange={(e) => st.updateSettings({ neverInclude: e.target.value })} />
       </section>
 
-      <section className="card space-y-3">
-        <h2 className="font-semibold">Behaviour</h2>
+      <section className="fig-card space-y-3">
+        <h2 className="mb-1 text-2xl tracking-[-0.01em]">Behaviour</h2>
         <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={settings.autoSave} onChange={(e) => st.updateSettings({ autoSave: e.target.checked })} /> Auto-save generated prompts to History</label>
         <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={settings.autoMarkUsedOnCopy} onChange={(e) => st.updateSettings({ autoMarkUsedOnCopy: e.target.checked })} /> Mark as “generated” when I copy a prompt</label>
         <label className="flex items-center gap-2 text-sm">Diversity window
@@ -57,8 +57,8 @@ export function SettingsView() {
         </div>
       </section>
 
-      <section className="card space-y-3">
-        <h2 className="font-semibold">Templates</h2>
+      <section className="fig-card space-y-3">
+        <h2 className="mb-1 text-2xl tracking-[-0.01em]">Templates</h2>
         <div className="flex gap-2">
           {MODES.map((m) => <button key={m} className={`btn ${m === mode ? 'btn-primary' : ''}`} onClick={() => setMode(m)}>{m}</button>)}
           <button className="btn ml-auto" onClick={() => confirm('Restore default templates?') && st.updateSettings({ templates: cloneTemplates(DEFAULT_TEMPLATES) })}>Restore defaults</button>
@@ -70,11 +70,11 @@ export function SettingsView() {
         <textarea key={`p-${mode}`} className="input min-h-48 font-mono text-xs" defaultValue={tplText} onBlur={(e) => saveTemplates(e.target.value, structured)} aria-label="Paragraph templates" />
         <label className="label">Structured template</label>
         <textarea key={`s-${mode}`} className="input min-h-48 font-mono text-xs" defaultValue={structured} onBlur={(e) => saveTemplates(tplText, e.target.value)} aria-label="Structured template" />
-        {bad.length > 0 && <p className="text-xs text-warn">Unknown placeholders (will render empty): {bad.join(', ')}</p>}
+        {bad.length > 0 && <p className="text-xs text-ink">Unknown placeholders (will render empty): {bad.join(', ')}</p>}
       </section>
 
-      <section className="card space-y-3">
-        <h2 className="font-semibold">Storage</h2>
+      <section className="fig-card space-y-3">
+        <h2 className="mb-1 text-2xl tracking-[-0.01em]">Storage</h2>
         <p className="text-sm text-mute">
           Currently: <b className="text-ink">{settings.storage}</b>. Local mode keeps everything in this browser (IndexedDB) - clearing site data deletes it, so export JSON occasionally.
         </p>
@@ -87,7 +87,7 @@ export function SettingsView() {
           <button className="btn" onClick={async () => { st.setSupabase(sb); await st.switchStorage('supabase'); }}>Use Supabase</button>
           <button className="btn" onClick={() => st.switchStorage('local')}>Use local</button>
         </div>
-        <p className="text-xs text-warn">The Supabase adapter has not been tested against a live project. Run docs/supabase.sql first and read its security warning.</p>
+        <p className="text-xs text-ink">The Supabase adapter has not been tested against a live project. Run docs/supabase.sql first and read its security warning.</p>
       </section>
     </div>
   );

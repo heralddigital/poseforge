@@ -30,9 +30,9 @@ export function GenerateView() {
 
   return (
     <div className="space-y-4">
-      <section className="card space-y-3">
+      <section className="fig-card space-y-3">
         <div className="flex flex-wrap gap-2">
-          <button className="btn btn-primary px-6 py-3 text-base" onClick={() => st.generate(1)}>🎲 Randomize <kbd className="text-xs opacity-60">R</kbd></button>
+          <button className="btn btn-signal" onClick={() => st.generate(1)}>Randomize <kbd className="border-on-signal/40">R</kbd></button>
           {[5, 10, 25].map((n) => (
             <button key={n} className="btn" onClick={() => st.generate(n)}>×{n}</button>
           ))}
@@ -96,7 +96,7 @@ export function GenerateView() {
         )}
       </section>
 
-      {warning && <p className="rounded-lg border border-warn/50 bg-warn/10 p-3 text-sm text-warn">{warning}</p>}
+      {warning && <p className="border border-line bg-panel2 p-3 text-sm">{warning}</p>}
 
       {session.length > 0 && (
         <div className="flex flex-wrap items-center gap-2 text-sm text-mute">
@@ -111,7 +111,7 @@ export function GenerateView() {
       )}
 
       {session.length === 0 ? (
-        <div className="card text-center text-mute">
+        <div className="fig-card text-center text-mute">
           Press <b className="text-ink">Randomize</b> (or <kbd>R</kbd>) to create your first prompt. Everything is saved to the History tab automatically.
         </div>
       ) : (

@@ -36,12 +36,12 @@ export function HistoryView() {
 
   return (
     <div className="space-y-4">
-      <section className="card space-y-3">
+      <section className="fig-card space-y-3">
         <div className="flex flex-wrap gap-3 text-sm">
           <span><b>{stats.total}</b> total</span>
           <span className="text-mute"><b className="text-ink">{stats.unused}</b> unused</span>
-          <span className="text-ok"><b>{stats.generated}</b> generated</span>
-          <span className="text-accent"><b>{stats.posted}</b> posted</span>
+          <span className="text-ink"><b>{stats.generated}</b> generated</span>
+          <span className="text-ink"><b>{stats.posted}</b> posted</span>
           <span className="text-bad"><b>{stats.rejected}</b> rejected</span>
           <span><b>{stats.starred}</b> ★</span>
         </div>
@@ -72,7 +72,7 @@ export function HistoryView() {
       </section>
 
       {selected.size > 0 && (
-        <div className="sticky top-14 z-10 flex flex-wrap items-center gap-2 rounded-xl border border-accent/60 bg-panel2 p-3 text-sm">
+        <div className="sticky top-2 z-10 flex flex-wrap items-center gap-2 border border-ink bg-raised p-3 text-sm">
           <b>{selected.size} selected</b>
           <button className="btn" onClick={() => { st.setStatus(ids, 'generated'); setSelected(new Set()); }}>Mark generated</button>
           <button className="btn" onClick={() => { st.setStatus(ids, 'posted'); setSelected(new Set()); }}>Mark posted</button>
@@ -93,7 +93,7 @@ export function HistoryView() {
       </div>
 
       {items.length === 0 ? (
-        <div className="card text-center text-mute">{stats.total === 0 ? 'No saved prompts yet. Generate some first.' : 'Nothing matches those filters.'}</div>
+        <div className="fig-card text-center text-mute">{stats.total === 0 ? 'No saved prompts yet. Generate some first.' : 'Nothing matches those filters.'}</div>
       ) : (
         <div className="space-y-3">
           {visible.map((p) => <PromptCard key={p.id} p={p} selectable selected={selected.has(p.id)} onSelect={() => toggleSel(p.id)} />)}

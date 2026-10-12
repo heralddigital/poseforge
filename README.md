@@ -7,7 +7,7 @@ A web app that generates very detailed, natural-looking lifestyle photo prompts 
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm test           # 25 tests
+npm test           # 24 tests
 npm run build && npm start
 ```
 
@@ -46,7 +46,7 @@ Measured on this build (my own test runs, not an external benchmark): 6000 defau
 - **Higgsfield behaviour is untested.** I did not test these prompts in Higgsfield, and I don't know its prompt-length limits or how closely it follows detailed camera terms. Prompts are 250–400 words in Full mode; if results degrade, use Condensed or Short. Camera and lens wording may influence the look only loosely in AI image models.
 - The re-rolled prompts keep their original seed field for display, so a re-rolled prompt is stored with its exact selections but cannot be regenerated from the seed alone.
 - Not implemented from the original brief: swipe gestures on History cards and a dedicated Supabase sync-conflict UI (last write wins).
-- Tested here: unit tests (25), type-check, lint, production build and a headless-browser smoke test (generate, save, reload persistence, status change, tab switching). Not tested: other browsers, mobile layouts, and Supabase.
+- Tested here: unit tests (24), type-check, lint, production build and a headless-browser smoke test (generate, save, reload persistence, status change, tab switching). Not tested: other browsers, mobile layouts, and Supabase.
 
 ## Sample output (default settings, "Full", paragraph, seeds 2026 / 777 / 31415)
 

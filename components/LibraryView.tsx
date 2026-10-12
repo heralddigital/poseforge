@@ -34,9 +34,9 @@ export function LibraryView() {
 
   return (
     <div className="space-y-4">
-      <section className="card space-y-3">
+      <section className="fig-card space-y-3">
         <p className="text-sm text-mute">
-          Every dropdown choice the generator uses lives here. Separate detail levels with <code className="text-accent">|</code> (short | condensed | full).
+          Every dropdown choice the generator uses lives here. Separate detail levels with <code className="mono">|</code> (short | condensed | full).
           Tags drive compatibility: <i>requires</i> entries must all be present in the rest of the prompt (<code>a|b</code> = either), <i>excludes</i> must be absent.
         </p>
         <div className="flex flex-wrap gap-2">
@@ -56,7 +56,7 @@ export function LibraryView() {
         {options.map((o) => (
           <div key={o.id} className={`card space-y-2 ${o.enabled ? '' : 'opacity-50'}`}>
             <div className="flex items-start gap-2">
-              <input type="checkbox" className="mt-2 h-4 w-4 accent-[#c4a7ff]" checked={o.enabled} onChange={(e) => edit(o.id, { enabled: e.target.checked })} aria-label="Enabled" />
+              <input type="checkbox" className="mt-2 h-4 w-4 " checked={o.enabled} onChange={(e) => edit(o.id, { enabled: e.target.checked })} aria-label="Enabled" />
               <textarea className="input min-h-12" defaultValue={o.text} key={o.id + o.text} onBlur={(e) => e.target.value !== o.text && edit(o.id, { text: e.target.value })} />
               <button className="btn text-bad px-2" onClick={() => mutate((opts) => opts.filter((x) => x.id !== o.id))} aria-label="Delete option">✕</button>
             </div>
@@ -76,7 +76,7 @@ export function LibraryView() {
             </div>
           </div>
         ))}
-        {options.length === 0 && <div className="card text-center text-mute">No options match.</div>}
+        {options.length === 0 && <div className="fig-card text-center text-mute">No options match.</div>}
       </div>
     </div>
   );
