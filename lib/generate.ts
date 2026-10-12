@@ -24,6 +24,15 @@ export interface GenOutcome {
   unresolved: number;
 }
 
+export const IPHONE_SELFIE_TAG = 'iphone18';
+
+/** Adds the iPhone-selfie camera pin when the lock is on and that option still exists (and is enabled) in the pools. */
+export function withSelfieLock(settings: Settings, pinned: Record<string, string[]>, pools: Pool[]): Record<string, string[]> {
+  if (!settings.iphoneSelfieLock) return pinned;
+  const opt = pools.find((p) => p.category === 'camera')?.options.find((o) => o.enabled && o.tags.includes(IPHONE_SELFIE_TAG));
+  return opt ? { ...pinned, camera: [opt.id] } : pinned;
+}
+
 export function pickConfigFrom(settings: Settings, pinned: Record<string, string[]>): PickConfig {
   return {
     style: settings.style,
@@ -98,7 +107,7 @@ function compose(
 
 /** Deterministic: the same seed, pools and settings always produce the same prompt (id/createdAt aside). */
 export function generatePrompt(seed: number, ctx: GenContext): GenOutcome {
-  const config = pickConfigFrom(ctx.settings, ctx.pinned);
+  const config = pickConfigFrom(ctx.settings, withSelfieLock(ctx.settings, ctx.pinned, ctx.pools));
   const result = pickAll(seed, ctx.pools, config);
   const prompt = compose(seed, result.picks, ctx.settings, config);
   return { prompt, attempts: 1, repeated: false, relaxed: result.relaxed, unresolved: result.unresolved };
@@ -122,7 +131,7 @@ export function generateUnique(ctx: GenContext, maxAttempts = 30, firstSeed = ne
 
 /** Re-roll one category of an existing prompt (all other picks stay fixed). */
 export function rerollPromptCategory(prompt: GeneratedPrompt, category: string, ctx: GenContext): GeneratedPrompt | null {
-  const config = pickConfigFrom(ctx.settings, ctx.pinned);
+  const config = pickConfigFrom(ctx.settings, withSelfieLock(ctx.settings, ctx.pinned, ctx.pools));
   const newS = newSeed();
   const replacement = rerollCategory(newS, ctx.pools, config, prompt.optionIds, category);
   if (!replacement) return null;

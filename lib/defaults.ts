@@ -7,6 +7,7 @@ export const emptyFilters = (): Filters => ({ setting: [], time: [], season: [],
 export function defaultSettings(): Settings {
   return {
     style: 'girlnextdoor',
+    iphoneSelfieLock: true,
     characterLock: '',
     characterLockEnabled: false,
     alwaysAppend: '',

@@ -67,10 +67,12 @@ describe('compatibility rules', () => {
     for (let i = 0; i < 100; i++) expect(generatePrompt(i + 1, ctx({ settings })).prompt.promptText.toLowerCase()).not.toContain('sunglasses');
   });
   it('honours pins', () => {
+    const settings = defaultSettings();
+    settings.iphoneSelfieLock = false;
     const pools = defaultPools();
     const target = pools.find((p) => p.category === 'camera')!.options[3].id;
     for (let i = 0; i < 30; i++) {
-      const o = generatePrompt(i + 1, ctx({ pools, pinned: { camera: [target] } }));
+      const o = generatePrompt(i + 1, ctx({ pools, settings, pinned: { camera: [target] } }));
       expect(o.prompt.optionIds.camera).toContain(target);
     }
   });
@@ -128,6 +130,7 @@ describe('style bias', () => {
   const share = (style: 'standard' | 'girlnextdoor', cat: string, tag: string) => {
     const settings = defaultSettings();
     settings.style = style;
+    settings.iphoneSelfieLock = false;
     const pools = defaultPools();
     let hit = 0;
     const n = 300;
@@ -147,5 +150,25 @@ describe('style bias', () => {
     const text = generatePrompt(5, ctx({ settings })).prompt.promptText;
     expect(text).toContain('feel');
     expect(wordCount(text)).toBeLessThanOrEqual(WORD_BUDGET.full[1] * 1.1);
+  });
+});
+
+describe('iPhone selfie lock', () => {
+  it('always uses the iPhone 18 Pro Max front camera with a selfie angle and no full-body framing', () => {
+    const settings = defaultSettings();
+    expect(settings.iphoneSelfieLock).toBe(true);
+    for (let i = 0; i < 200; i++) {
+      const o = generatePrompt(i + 1, ctx({ settings }));
+      expect(o.prompt.promptText).toContain('iPhone 18 Pro Max front-facing camera');
+      expect(o.prompt.tags).toContain('selfie');
+      expect(o.prompt.tags).not.toContain('full');
+      expect(o.relaxed + o.unresolved).toBe(0);
+    }
+  });
+  it('can be switched off (the camera is then a normal random pick)', () => {
+    const settings = defaultSettings();
+    settings.iphoneSelfieLock = false;
+    const hits = Array.from({ length: 60 }, (_, i) => generatePrompt(i + 1, ctx({ settings })).prompt.promptText.includes('iPhone 18 Pro Max')).filter(Boolean).length;
+    expect(hits).toBeLessThan(30);
   });
 });

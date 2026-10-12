@@ -62,7 +62,21 @@ const poseRaw = build('pose', [
   s('balancing along a curb with {poss} arms out|a playful stride|head turned toward the camera|knees slightly bent', 'walking needs-full motion candid hands-busy', 'street'),
   s('standing under an archway with {poss} hands clasped behind {poss} back|a subtle smile|chin level|calm, composed posture', 'needs-full hands-busy', 'door|steps|wall'),
   s('sitting on a low stool with {poss} elbows on {poss} thighs|hands clasped|leaning slightly forward|a warm unfiltered smile', 'sit hands-busy', 'floor|cafe'),
-  s('standing at the edge of the pool with {poss} toes at the tiles|one hand brushing back wet hair|looking over the water|weight tipping forward', 'needs-full', 'water pool')
+  s('standing at the edge of the pool with {poss} toes at the tiles|one hand brushing back wet hair|looking over the water|weight tipping forward', 'needs-full', 'water pool'),
+  s("taking a selfie at arm's length with a soft smile|chin slightly tilted down|{poss} free hand brushing hair behind {poss} ear|shoulders relaxed", 'selfie-pose upper-body candid', 'selfie-cam'),
+  s('holding the phone high for a flattering selfie|head tilted to one side|a playful half-smile|{poss} free hand resting near {poss} collarbone', 'selfie-pose upper-body candid', 'selfie-cam'),
+  s('leaning toward the screen for a close selfie|face filling most of the frame|{poss} free hand tucking a strand of hair|a relaxed, unguarded look', 'selfie-pose upper-body candid', 'selfie-cam'),
+  s('a selfie with {poss} head resting on {poss} free hand|elbow propped|a sleepy, content look', 'selfie-pose upper-body candid', 'selfie-cam'),
+  s('a quick snapshot selfie mid-laugh|head tilted slightly back|{poss} free hand covering part of {poss} smile', 'selfie-pose upper-body candid', 'selfie-cam'),
+  s('a selfie with the phone held low and angled up|chin lifted|a confident, easy smile', 'selfie-pose upper-body candid', 'selfie-cam'),
+  s('a selfie with a peace sign held beside {poss} cheek|nose scrunched playfully|a bright, cheeky look', 'selfie-pose upper-body candid', 'selfie-cam'),
+  s("a selfie glancing off to the side|phone at arm's length|{poss} free hand adjusting an earring|a candid, caught-in-the-moment look", 'selfie-pose upper-body candid', 'selfie-cam'),
+  s('a selfie biting {poss} lower lip while trying not to laugh|eyes bright|phone tilted slightly', 'selfie-pose upper-body candid', 'selfie-cam'),
+  s('a silly selfie with {poss} tongue stuck out playfully|eyes crinkled|a spontaneous, goofy energy', 'selfie-pose upper-body candid', 'selfie-cam'),
+  s('a car selfie with the seatbelt across {poss} chest|phone held up near the window|a relaxed smile', 'selfie-pose upper-body candid', 'selfie-cam car'),
+  s("a sit-down selfie at the table|phone held at arm's length|{poss} free hand around a drink", 'selfie-pose upper-body candid', 'selfie-cam table|cafe'),
+  s('a selfie facing the light|squinting slightly|{poss} free hand shading {poss} eyes|a soft smile', 'selfie-pose upper-body candid', 'selfie-cam outdoor|window'),
+  s('a selfie with sunglasses pushed up on {poss} head|a breezy grin|the wind moving {poss} hair', 'selfie-pose upper-body candid', 'selfie-cam outdoor')
 ]);
 const HANDS_RE = /\bhands?\b|fingers?|fingertips|\btying\b|\btie\b|adjusting|brushing|twirling|touching|putting on|holding|clutching|gripping|trailing/i;
 export const pose = poseRaw.map((o) =>
@@ -105,7 +119,10 @@ export const props = build('props', [
   s('a half-open magazine resting on {poss} knee|glossy pages curling|a thumb pressing the spread flat', 'book', 'sit|bench|bed|sofa|table'),
   s('a small plant in a terracotta pot held against {poss} hip|soft leaves trailing|crumbs of soil on {poss} fingers', 'plant', 'home|urban|cafe|travel'),
   s('{poss} sneakers hanging by the laces from one hand|bare feet visible|a carefree swing', 'shoes', 'beach|grass|sand|home', 'winter cold'),
-  s('a paper cup of hot chocolate|marshmallows softening on top|both hands wrapped around it', 'drink', 'cold|winter|snow', 'summer')
+  s('a paper cup of hot chocolate|marshmallows softening on top|both hands wrapped around it', 'drink', 'cold|winter|snow', 'summer'),
+  s("{poss} phone held out at arm's length|the other hand relaxed or tucking back a strand of hair|a casual one-handed grip", 'phone-in-hand selfie-hand busy-ok', 'selfie-cam'),
+  s("{poss} phone held out at arm's length|the other hand wrapped around a coffee cup|a relaxed, unhurried grip", 'phone-in-hand selfie-hand busy-ok', 'selfie-cam'),
+  s('{poss} phone held high in one hand|the other hand resting lightly on {poss} collarbone|a gentle, easy hold', 'phone-in-hand selfie-hand busy-ok', 'selfie-cam')
 ]);
 
 export const expression = build('expression', [

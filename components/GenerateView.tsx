@@ -66,6 +66,10 @@ export function GenerateView() {
             <input type="range" min={1} max={5} value={settings.realism} onChange={(e) => st.updateSettings({ realism: Number(e.target.value) as 1 | 2 | 3 | 4 | 5 })} />
             {settings.realism}
           </label>
+          <label className="flex items-center gap-2 text-mute" title="Forces the camera to the iPhone 18 Pro Max front camera, so every shot is an arm-length selfie (no full-body or walking poses)">
+            <input type="checkbox" checked={settings.iphoneSelfieLock} onChange={(e) => st.updateSettings({ iphoneSelfieLock: e.target.checked })} />
+            iPhone 18 Pro Max selfie
+          </label>
           <label className="flex items-center gap-2 text-mute" title="Prepends your Character Lock text (set in Settings)">
             <input type="checkbox" checked={settings.characterLockEnabled} onChange={(e) => st.updateSettings({ characterLockEnabled: e.target.checked })} />
             Character lock {settings.characterLockEnabled && !settings.characterLock.trim() ? '(empty!)' : ''}

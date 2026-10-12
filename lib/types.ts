@@ -51,6 +51,8 @@ export interface Templates {
 
 export interface Settings {
   style: 'standard' | 'girlnextdoor';
+  /** When true every prompt uses the iPhone 18 Pro Max front camera, i.e. a selfie. */
+  iphoneSelfieLock: boolean;
   characterLock: string;
   characterLockEnabled: boolean;
   alwaysAppend: string;

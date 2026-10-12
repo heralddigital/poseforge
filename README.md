@@ -7,7 +7,7 @@ A web app that generates very detailed, natural-looking lifestyle photo prompts 
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm test           # 26 tests
+npm test           # 28 tests
 npm run build && npm start
 ```
 
@@ -17,6 +17,7 @@ Requires Node 20+. Deploy to Vercel by importing the repo (no environment variab
 
 - **Generate**: Randomize (or press `R`), or batch ×5 / ×10 / ×25. Choose length (Full 250–400 words, Condensed 150–220, Short 60–100), format (paragraph / structured), aspect ratio, pronoun and a realism slider (more or fewer imperfection details).
 - **Style**: *Girl next door* (default) biases picks toward everyday looks: phone cameras, natural makeup, casual and cosy outfits, home / café / street settings, candid poses, warm smiles and realistic imperfections, and adds one short "girl-next-door feel" line to each prompt. *Standard mix* turns the bias off. It only changes weights; compatibility rules still apply. Tune it in `lib/style.ts`.
+- **iPhone 18 Pro Max selfie lock** (on by default, checkbox in Generate): every prompt uses the iPhone 18 Pro Max front camera and an arm-length selfie angle. Selfie-specific poses and one-handed phone grips are used, and full-body, walking, lying and mirror shots are excluded. Switch it off for the normal camera mix. The prompt wording is deliberately generic (no sensor numbers) because I could not verify the iPhone 18 Pro Max's specs, or that your image model recognises that name; if it does not, edit the camera option in Library (tag `iphone18`).
 - **Cards**: *Details* shows every part of the prompt. `↻` re-rolls just that part; `pin` keeps that choice in all future generations. Length and format can be switched per card.
 - **Filters**: setting, time of day, season/weather, outfit vibe, shot type and camera look. Options inside a group are OR-ed, groups are AND-ed. If your filters are so narrow the engine has to break a compatibility rule, you get a warning.
 - **History**: infinite scroll, status filters, search (prompt text, title, notes), star, notes, bulk select (mark / reject / export / delete) and JSON / CSV export. Import accepts the app's own JSON. Deletes and bulk status changes have **Undo**.
@@ -47,7 +48,7 @@ Measured on this build (my own test runs, not an external benchmark): 6000 defau
 - **Higgsfield behaviour is untested.** I did not test these prompts in Higgsfield, and I don't know its prompt-length limits or how closely it follows detailed camera terms. Prompts are 250–400 words in Full mode; if results degrade, use Condensed or Short. Camera and lens wording may influence the look only loosely in AI image models.
 - The re-rolled prompts keep their original seed field for display, so a re-rolled prompt is stored with its exact selections but cannot be regenerated from the seed alone.
 - Not implemented from the original brief: swipe gestures on History cards and a dedicated Supabase sync-conflict UI (last write wins).
-- Tested here: unit tests (26), type-check, lint, production build and a headless-browser smoke test (generate, save, reload persistence, status change, tab switching). Not tested: other browsers, mobile layouts, and Supabase.
+- Tested here: unit tests (28), type-check, lint, production build and a headless-browser smoke test (generate, save, reload persistence, status change, tab switching). Not tested: other browsers, mobile layouts, and Supabase.
 
 ## Sample output (default settings, "Full", paragraph, seeds 2026 / 777 / 31415)
 

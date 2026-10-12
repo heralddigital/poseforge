@@ -18,6 +18,7 @@ export const camera = build('camera', [
   // phones
   s('shot on an iPhone 15 Pro main camera|a 48MP sensor with natural computational processing|slight smart-HDR tone mapping', 'phone body-phone'),
   s('shot on an iPhone 16 Pro main camera|clean modern smartphone rendering|a gently lifted shadow range', 'phone body-phone'),
+  s('shot on an iPhone 18 Pro Max front-facing camera|a front-facing selfie sensor with natural computational processing|a slightly wide arm-length perspective', 'phone body-phone selfie-cam iphone18', '', 'mirror-selfie'),
   s('shot on an iPhone front-facing selfie camera|a slightly wide perspective|soft smartphone skin smoothing', 'phone body-phone selfie-cam'),
   // full-frame / APS-C digital
   s('shot on a Sony A7 IV|a 33MP full-frame mirrorless sensor|clean accurate colors', 'digital body-ilc mount-e'),
